@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAZINIBOT — Connecter MT5</title>
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --card-bg: #141414;
+            --accent-gold: #e5a93c;
+            --text-color: #f1f1f1;
+            --text-muted: #888888;
+            --border-color: #262626;
+            --real-border: #7a2222;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background-color: #050505;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: var(--accent-gold);
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin: 0 8px;
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        nav a.active {
+            color: var(--accent-gold);
+            border-bottom: 2px solid var(--accent-gold);
+            padding-bottom: 5px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+
+        .subtitle span.demo { color: #4caf50; font-weight: bold; }
+        .subtitle span.real { color: #f44336; font-weight: bold; }
+
+        .account-types {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        @media (min-width: 600px) {
+            .account-types {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .type-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 18px;
+        }
+
+        .type-card.real {
+            border-color: var(--real-border);
+        }
+
+        .type-title {
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .type-title.demo { color: #4caf50; }
+        .type-title.real { color: #f44336; }
+
+        .type-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .btn-subscribe {
+            display: inline-block;
+            margin-top: 10px;
+            color: #f44336;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .form-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .form-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .form-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        @media (min-width: 600px) {
+            .input-grid {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            background-color: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 4px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        .help-text {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .btn-connect {
+            background-color: var(--accent-gold);
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            text-transform: uppercase;
+            width: 100%;
+        }
+
+        @media (min-width: 600px) {
+            .btn-connect {
+                width: auto;
+            }
+        }
+
+        .connected-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 18px;
+        }
+
+        .connected-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .empty-state {
+            font-size: 13px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">MAZINIBOT</div>
+        <nav>
+            <a href="#" class="active">Connecter MT5</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Connecter mon compte MT5</h1>
+        <div class="subtitle">
+            Le robot reconnaît automatiquement si votre compte est <span class="demo">DÉMO</span> (gratuit) ou <span class="real">RÉEL</span> (abonnement requis).
+        </div>
+
+        <div class="account-types">
+            <div class="type-card">
+                <div class="type-title demo">COMPTE DÉMO</div>
+                <div class="type-desc">Gratuit. Essais offerts pour découvrir la précision du robot sans aucun risque.</div>
+            </div>
+            <div class="type-card real">
+                <div class="type-title real">COMPTE RÉEL</div>
+                <div class="type-desc">Argent réel. Abonnement : <strong>25 000 FCFA / mois</strong> (ou USDT)</div>
+                <div style="margin-top: 8px; font-size: 11px; color: #888;">
+                    Moyens acceptés : Wave, Orange Money, MTN, Moov, Carte, Crypto (USDT, BTC)
+                </div>
+                <a href="#" class="btn-subscribe">S'abonner →</a>
+            </div>
+        </div>
+
+        <div class="form-box">
+            <div class="form-title">Connexion automatique (Recommandée)</div>
+            <div class="form-desc">Rien à installer : le robot tourne sur nos serveurs 24/7. Vous gérez tout depuis votre téléphone.</div>
+
+            <div class="input-grid">
+                <div class="input-group">
+                    <label>Numéro de compte MT5</label>
+                    <input type="text" placeholder="ex. 53236567">
+                </div>
+                <div class="input-group">
+                    <label>Mot de passe Investisseur</label>
+                    <input type="password" placeholder="••••••••">
+                </div>
+                <div class="input-group">
+                    <label>Serveur du courtier</label>
+                    <input type="text" placeholder="ex. Exness-MT5Real9">
+                </div>
+            </div>
+
+            <div class="help-text">Le serveur s'affiche dans MT5 : Fichier → Ouvrir un compte, ou dans l'email de votre courtier.</div>
+
+            <button class="btn-connect">Connecter mon compte</button>
+        </div>
+
+        <div class="connected-box">
+            <div class="connected-title">Mes comptes connectés</div>
+            <div class="empty-state">Aucun compte connecté pour l'instant.</div>
+        </div>
+    </div>
+
+</body>
+</html>
